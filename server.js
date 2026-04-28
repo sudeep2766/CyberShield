@@ -1,4 +1,3 @@
-require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
@@ -15,7 +14,7 @@ app.use((req, res, next) => {
 
 app.use(bodyParser.json());
 app.use(session({
-    secret: process.env.SESSION_SECRET || 'cybershield-secret-key',
+    secret: 'cybershield-secret-key',
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false } // Set to true if using HTTPS
@@ -52,13 +51,13 @@ app.get('/admin', checkAuth, (req, res) => {
 app.post('/api/login', (req, res) => {
     const { username, password } = req.body;
     
-    if (username === process.env.ADMIN_USERNAME && password === process.env.ADMIN_PASSWORD) {
+    if (username === 'admin' && password === 'superheavy') {
         req.session.user = { role: 'admin' };
         return res.json({ success: true, redirect: '/admin' });
-    } else if (username === process.env.OFFICER_1_USERNAME && password === process.env.OFFICER_1_PASSWORD) {
+    } else if (username === 'officer' && password === 'shield2026') {
         req.session.user = { role: 'officer' };
         return res.json({ success: true, redirect: '/officer' });
-    } else if (username === process.env.OFFICER_2_USERNAME && password === process.env.OFFICER_2_PASSWORD) {
+    } else if (username === 'officer0' && password === '0officer') {
         req.session.user = { role: 'officer' };
         return res.json({ success: true, redirect: '/officer' });
     } else {
